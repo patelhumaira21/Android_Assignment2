@@ -1,0 +1,63 @@
+<resources>
+    <string name="app_name">Assign2</string>
+
+    <string name="time_activity">Time Setting</string>
+    <string name="keyboard_activity">Fun with Keyboard</string>
+    <string name="list_activity">Country and Sports List</string>
+
+    <string name="entry_text">Please Select an Activity</string>
+    <string name="go">GO</string>
+    <string-array name="activity_array">
+        <item>Set Time</item>
+        <item>Play with Keyboard</item>
+        <item>List of Countries and Sports</item>
+    </string-array>
+    <string name="text_field">Enter a message:</string>
+
+    <string name="hide_button">Hide</string>
+    <string name="back_button">Back</string>
+    <string name="enter_text_hint">Enter a message</string>
+    <string name="enter_name_hint">Enter your name</string>
+    <string name="enter_email_hint">Enter your Email Address</string>
+
+    <string name="set_button">SET</string>
+
+    <string name="select_country_text">Please Select a Country: </string>
+    <string-array name="country_array">
+        <item>India</item>
+        <item>USA</item>
+        <item>Mexico</item>
+    </string-array>
+
+    <string name="select_sport_text">Please Select a Sport: </string>
+
+    <string-array name="india_sport_array">
+        <item>Cricket</item>
+        <item>Chess</item>
+        <item>Badminton</item>
+        <item>Field Hockey</item>
+        <item>Football</item>
+        <item>Tennis</item>
+        <item>Gilli-danda</item>
+        <item>Golf</item>
+    </string-array>
+
+    <string-array name="usa_sport_array">
+        <item>Baseball</item>
+        <item>Football</item>
+        <item>Hockey</item>
+        <item>Basketball</item>
+        <item>Soccer</item>
+        <item>Golf</item>
+        <item>Skateboarding</item>
+    </string-array>
+
+    <string-array name="mexico_sport_array">
+        <item>Football</item>
+        <item>Boxing</item>
+        <item>Baseball</item>
+        <item>Charreria</item>
+        <item>Bullfighting</item>
+        <item>Basque Pelota</item>
+    </string-array>
+</resources>
