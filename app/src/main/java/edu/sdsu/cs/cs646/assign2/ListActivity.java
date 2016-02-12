@@ -3,17 +3,20 @@ package edu.sdsu.cs.cs646.assign2;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 
 
-public class ListActivity extends ActionBarActivity implements CountryFragment.OnCountrySelectedListener,
+public class ListActivity extends MainActivity implements CountryFragment.OnCountrySelectedListener,
         SportFragment.OnSportSelectedListener {
 
     private String country_name=null;
     private String sport_name=null;
+    private Button backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,27 +36,37 @@ public class ListActivity extends ActionBarActivity implements CountryFragment.O
                     .add(R.id.fragment_container, fragment)
                     .commit();
         }
+
+        backButton = (Button)this.findViewById(R.id.list_back_button);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToMain();
+            }
+        });
     }
 
+    public void goToMain() {
 
-    public void goToMain(View backButton) {
-
-        Intent toPassBack = getIntent();
-
+        Intent goHome = new Intent(this,MainActivity.class);
+        Log.d("Parent Activity", goHome.toString());
         if(sport_name != null) {
-            toPassBack.putExtra("message", sport_name);
+            goHome.putExtra("message", sport_name);
         }
-        else {
-            toPassBack.putExtra("message", country_name);
+        else if (country_name != null){
+            goHome.putExtra("message", country_name);
         }
-        setResult(RESULT_OK, toPassBack);
-        finish();
+        else{
+            goHome.putExtra("message", "None Selected");
+        }
+        setResult(RESULT_OK, goHome);
+        navigateUpTo(goHome);
     }
 
     @Override
     public void countrySelected(String countryChosen) {
         country_name = countryChosen;
-        Log.d ("Country", country_name);
+        Log.d("Country", country_name);
     }
 
     @Override
@@ -61,4 +74,7 @@ public class ListActivity extends ActionBarActivity implements CountryFragment.O
         sport_name = sportChosen;
         Log.d ("Sport",sport_name);
     }
+
+
+
 }

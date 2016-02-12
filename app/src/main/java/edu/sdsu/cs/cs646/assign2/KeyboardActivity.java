@@ -1,5 +1,6 @@
 package edu.sdsu.cs.cs646.assign2;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,10 +9,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class KeyboardActivity extends ActionBarActivity {
+public class KeyboardActivity extends MainActivity {
 
     private Button hideButton;
     private Button backButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

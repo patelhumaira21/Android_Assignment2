@@ -1,6 +1,7 @@
 package edu.sdsu.cs.cs646.assign2;
 
 import android.content.Intent;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,14 +21,15 @@ public class MainActivity extends ActionBarActivity {
     private EditText messageText;
     private Spinner activitySpinner;
     private int selectedActivity;
-    private static final int REQUEST_CODE_TIME = 0;
-    private static final int REQUEST_CODE_LIST = 1;
+    public static final int REQUEST_CODE = 0;
     Intent goIntent = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Log.d("MAin oncreate", "Create called");
 
         getSupportActionBar().show();
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -49,6 +51,7 @@ public class MainActivity extends ActionBarActivity {
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
+
         });
 
         messageText = (EditText) findViewById(R.id.text_field);
@@ -71,7 +74,7 @@ public class MainActivity extends ActionBarActivity {
 
     public void goToTime(){
         goIntent = new Intent(this, TimeActivity.class);
-        startActivityForResult(goIntent, REQUEST_CODE_TIME);
+        startActivityForResult(goIntent, REQUEST_CODE);
     }
 
     public void goToKeyboard(){
@@ -83,7 +86,7 @@ public class MainActivity extends ActionBarActivity {
 
     public void goToList(){
         goIntent = new Intent(this, ListActivity.class);
-        startActivityForResult(goIntent, REQUEST_CODE_LIST);
+        startActivityForResult(goIntent, REQUEST_CODE);
     }
 
     public void goToActivity(View goButton) {
@@ -116,33 +119,17 @@ public class MainActivity extends ActionBarActivity {
         manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE_TIME) {
-            switch (resultCode) {
-                case RESULT_OK:
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d ("Request code",""+requestCode );
+        if (requestCode == REQUEST_CODE) {
+            if(RESULT_OK == resultCode) {
                     String display_text = data.getStringExtra("message");
                     if (display_text!=null) {
                         messageText.setText(display_text);
                     }
-                    break;
-                case RESULT_CANCELED:
-                    break;
             }
-        }
-
-        if (requestCode == REQUEST_CODE_LIST)
-            switch (resultCode) {
-            case RESULT_OK: {
-                String display_text = data.getStringExtra("message");
-                if (display_text != null) {
-                    messageText.setText(display_text);
-                } else
-                    messageText.setText("None Selected");
-                break;
-            }
-
-            case RESULT_CANCELED:
-                break;
         }
 
     }
@@ -169,8 +156,7 @@ public class MainActivity extends ActionBarActivity {
                 return true;
 
             case android.R.id.home:
-                // ProjectsActivity is my 'home' activity
-                super. onBackPressed();
+                NavUtils.navigateUpFromSameTask(this);
                 return true;
 
             default:
@@ -179,5 +165,16 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i("Main-destroy", this.getClass().toString());
+    }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i("Main-resume", this.getClass().toString());
+    }
 }

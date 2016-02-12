@@ -10,21 +10,26 @@
         android:theme="@style/Theme.AppCompat.Light">
         <activity
             android:name=".MainActivity"
-            android:windowSoftInputMode="stateVisible">
+            android:windowSoftInputMode="stateVisible|adjustResize">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".TimeActivity">
+        <activity android:name=".TimeActivity"
+                  android:parentActivityName=".MainActivity">
         </activity>
+
         <activity android:name=".KeyboardActivity"
-                  android:windowSoftInputMode="adjustResize">
+                  android:windowSoftInputMode="adjustResize"
+                  android:parentActivityName=".MainActivity">
         </activity>
-        <activity android:name=".ListActivity">
+
+        <activity android:name=".ListActivity"
+                  android:parentActivityName=".MainActivity">
         </activity>
+
     </application>
 
 </manifest>

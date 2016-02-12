@@ -11,9 +11,9 @@ import android.view.View;
 import android.widget.TimePicker;
 import java.util.Calendar;
 
-public class TimeActivity extends ActionBarActivity {
+public class TimeActivity extends MainActivity {
     private TimePicker mTimePicker;
-    private MyTime myTime;
+    private String timeString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,16 +36,18 @@ public class TimeActivity extends ActionBarActivity {
     }
 
     public void openConfirmDialog(View setButton) {
-        myTime = new MyTime(mTimePicker.getCurrentHour(), mTimePicker.getCurrentMinute());
-        Log.d("Time selected", myTime.toString());
+        int hour = mTimePicker.getCurrentHour();
+        int minutes = mTimePicker.getCurrentMinute();
+        timeString = formatTime(hour,minutes);
+        Log.d("Time selected", timeString);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(TimeActivity.this);
-        alertDialogBuilder.setMessage("You have entered the time as " + myTime + ". Do you wish to continue?");
+        alertDialogBuilder.setMessage("You have entered the time as " + timeString + ". Do you wish to continue?");
 
         alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
-                saveData(mTimePicker.getCurrentHour(),mTimePicker.getCurrentMinute());
+                saveData(mTimePicker.getCurrentHour(), mTimePicker.getCurrentMinute());
             }
 
 
@@ -83,9 +85,9 @@ public class TimeActivity extends ActionBarActivity {
 
     public void onBack(View button) {
         Log.i("rew", "Back");
-        Intent toPassBack = getIntent();
-        if (myTime != null) {
-            toPassBack.putExtra("message", myTime.toString());
+        Intent toPassBack = getParentActivityIntent();
+        if (timeString != null) {
+            toPassBack.putExtra("message", timeString);
         }
         else {
             toPassBack.putExtra("message", "");
@@ -94,54 +96,23 @@ public class TimeActivity extends ActionBarActivity {
         finish();
     }
 
-}
-
-class MyTime {
-
-    private int hour;
-    private int minutes;
-
-    public int getHour() {
-        return hour;
-    }
-
-    public void setHour(int hour) {
-        this.hour = hour;
-    }
-
-    public int getMinutes() {
-        return minutes;
-    }
-
-    public void setMinutes(int mins) {
-        this.minutes = mins;
-    }
-
-    public MyTime() {
-        Calendar c = Calendar.getInstance();
-        this.hour = c.get(Calendar.HOUR);
-        this.minutes = c.get(Calendar.MINUTE);
-    }
-
-    public MyTime(int hour, int mins) {
-        this.hour = hour;
-        this.minutes = mins;
-    }
-
-    @Override
-    public String toString() {
-        String hr= String.valueOf(this.hour % 12);
+    private String formatTime(int hour,int minutes) {
+        String hr= String.valueOf(hour % 12);
         if(hr.equals("0")){
             hr = "12";
         }
 
-        String mins= String.valueOf(this.minutes);
-        if(this.minutes<10){
+        String mins= String.valueOf(minutes);
+        if(minutes<10){
             mins = "0"+mins;
         }
 
-        return (hr + ":" + mins + " " + ((this.hour>=12) ? "PM" : "AM"));
+        return (hr + ":" + mins + " " + ((hour>=12) ? "PM" : "AM"));
 
     }
-
 }
+
+
+
+
+
