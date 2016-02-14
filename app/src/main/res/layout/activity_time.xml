@@ -30,7 +30,6 @@
         android:layout_height="wrap_content"
         android:text="@string/back_button"
         android:layout_gravity="center|bottom"
-        android:onClick="onBack"
         />
 
 </LinearLayout>

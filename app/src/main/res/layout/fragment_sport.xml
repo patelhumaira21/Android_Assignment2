@@ -15,12 +15,8 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:scrollbars="vertical"
-        />
+        android:background="@color/accent_material_dark"
+        android:listSelector="@color/accent_material_light"
+    />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/sportTextView"
-        android:hint="Sport"
-        />
 </LinearLayout>

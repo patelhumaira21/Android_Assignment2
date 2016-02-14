@@ -1,52 +1,53 @@
+/**
+ * File Name : MainActivity.java
+ * Created by: Humaira Patel
+ * Date: 02/4/2016
+ *
+ */
+
 package edu.sdsu.cs.cs646.assign2;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Intent;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class MainActivity extends ActionBarActivity {
+/**
+ * This class is the entry point to the app and serves as the main screen.
+ * It inherits the ActionBar from the ParentActivity. It contains the Spinner,
+ * EditText and Country Fragment. It implements the OnCountrySelectedListener
+ * to retrieve the country selected.
+ */
+
+public class MainActivity extends ParentActivity implements CountryFragment.OnCountrySelectedListener{
 
     private EditText messageText;
     private Spinner activitySpinner;
     private int selectedActivity;
-    public static final int REQUEST_CODE = 0;
-    Intent goIntent = null;
 
+    /**
+     * Overriding the onCreate method.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Log.d("MAin oncreate", "Create called");
-
-        getSupportActionBar().show();
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.ic_launcher);
-        getSupportActionBar().setDisplayUseLogoEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-
+        // Setting up the Spinner.
         activitySpinner = (Spinner) findViewById(R.id.activity_spinner);
         activitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int pos, long id) {
-                Log.d("Position", "" + pos);
-                Log.d("Id", "" + id);
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 selectedActivity = pos;
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -54,6 +55,7 @@ public class MainActivity extends ActionBarActivity {
 
         });
 
+        // Setting up the EditText.
         messageText = (EditText) findViewById(R.id.text_field);
         messageText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -62,7 +64,6 @@ public class MainActivity extends ActionBarActivity {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     handled = true;
                 }
-
                 if (handled) {
                     hideSoftKeyboard(messageText);
                 }
@@ -70,111 +71,77 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+        // Including the Country Fragment.
+        FragmentManager fm = getFragmentManager();
+        Fragment fragment = fm.findFragmentById(R.id.fragment_container_country);
+        if (fragment == null) {
+            fragment = new CountryFragment();
+            fm.beginTransaction()
+                    .add(R.id.fragment_container_country, fragment)
+                    .commit();
+        }
+
     }
 
-    public void goToTime(){
-        goIntent = new Intent(this, TimeActivity.class);
-        startActivityForResult(goIntent, REQUEST_CODE);
-    }
-
-    public void goToKeyboard(){
-        Log.d("keyboard", "keyboard activity called");
-        goIntent = new Intent(this, KeyboardActivity.class);
-        goIntent.putExtra("message", messageText.getText().toString());
-        startActivity(goIntent);
-    }
-
-    public void goToList(){
-        goIntent = new Intent(this, ListActivity.class);
-        startActivityForResult(goIntent, REQUEST_CODE);
-    }
-
+    /**
+     * This method will take the user to the activity selected in the Spinner.
+     * @param goButton
+     */
     public void goToActivity(View goButton) {
-
-        Log.d("Position", "" + selectedActivity);
+        Log.i("Selected activity is",""+selectedActivity);
         switch (selectedActivity) {
             case (0): {
                 goToTime();
                 break;
             }
-
             case (1): {
                 goToKeyboard();
                 break;
             }
-
             case (2): {
                 goToList();
                 break;
             }
-
             default:
                 break;
         }
-
     }
 
-    public void hideSoftKeyboard(View view) {
-        InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
-
+    /**
+     * Overriding the processResult() to display text in the EditText.
+     * @param result
+     */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.d ("Request code",""+requestCode );
-        if (requestCode == REQUEST_CODE) {
-            if(RESULT_OK == resultCode) {
-                    String display_text = data.getStringExtra("message");
-                    if (display_text!=null) {
-                        messageText.setText(display_text);
-                    }
-            }
-        }
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_time:
-                goToTime();
-                return true;
-
-            case R.id.action_keyboard:
-                goToKeyboard();
-                return true;
-
-            case R.id.action_list:
-                goToList();
-                return true;
-
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-
+    public void processResult(String result){
+        if (result != null) {
+            messageText.setText(result);
         }
     }
 
+    /**
+     * Overriding the goToKeyboard() to pass the value in the EditText on the
+     * main screen.
+     */
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.i("Main-destroy", this.getClass().toString());
+    public void goToKeyboard(){
+        goIntent = new Intent(this, KeyboardActivity.class);
+        goIntent.putExtra("message", messageText.getText().toString());
+        startActivityForResult(goIntent, REQUEST_CODE);
     }
 
+    /**
+     * Overriding the method of the OnCountrySelectedListener interface to retrieve
+     * value from the country fragment.
+     * @param countryChosen
+     * @param position
+     */
+    @Override
+    public void countrySelected(String countryChosen,int position) {
+        messageText.setText(countryChosen);
+    }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        Log.i("Main-resume", this.getClass().toString());
+    public void goToMain(){
+        // This method does nothing.
     }
 }

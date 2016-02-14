@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="edu.sdsu.cs.cs646.assign2"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="edu.sdsu.cs.cs646.assign2">
 
     <application
         android:allowBackup="true"
@@ -10,26 +10,27 @@
         android:theme="@style/Theme.AppCompat.Light">
         <activity
             android:name=".MainActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize">
-
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TimeActivity"
-                  android:parentActivityName=".MainActivity">
-        </activity>
-
-        <activity android:name=".KeyboardActivity"
-                  android:windowSoftInputMode="adjustResize"
-                  android:parentActivityName=".MainActivity">
-        </activity>
-
-        <activity android:name=".ListActivity"
-                  android:parentActivityName=".MainActivity">
-        </activity>
-
+        <activity
+            android:name=".TimeActivity"
+            android:launchMode="singleTask"
+            android:parentActivityName=".MainActivity"></activity>
+        <activity
+            android:name=".KeyboardActivity"
+            android:launchMode="singleTask"
+            android:parentActivityName=".MainActivity"
+            android:windowSoftInputMode="adjustResize"></activity>
+        <activity
+            android:name=".ListActivity"
+            android:launchMode="singleTask"
+            android:parentActivityName=".MainActivity"></activity>
+        <activity android:name=".ParentActivity"></activity>
     </application>
 
 </manifest>

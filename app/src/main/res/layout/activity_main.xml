@@ -20,7 +20,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:entries="@array/activity_array"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
+        />
+
+    <FrameLayout
+        android:id="@+id/fragment_container_country"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         />
 
     <EditText
@@ -31,7 +37,7 @@
         android:imeOptions="actionDone"
         android:hint="@string/enter_text_hint"
         android:layout_gravity="center"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="20dp"
         />
 
     <Button
@@ -41,7 +47,6 @@
         android:id="@+id/go_button"
         android:layout_gravity="center"
         android:onClick="goToActivity"
-        android:layout_marginTop="20dp"/>
-
+        android:layout_marginTop="10dp"/>
 
 </LinearLayout>

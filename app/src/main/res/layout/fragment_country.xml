@@ -16,9 +16,8 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:entries="@array/country_array"
-        android:layout_weight="1"
         android:scrollbars="vertical"
-        android:listSelector="@color/material_blue_grey_950">
-    </ListView>
+        android:background="@color/accent_material_dark"
+        android:listSelector="@color/accent_material_light"/>
 
 </LinearLayout>
