@@ -39,7 +39,7 @@ public class ListActivity extends ParentActivity implements CountryFragment.OnCo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        // Creating the country fragment
+        // Setting the country fragment
         FragmentManager fm = getFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
 
@@ -99,7 +99,7 @@ public class ListActivity extends ParentActivity implements CountryFragment.OnCo
         bundle.putInt("Country", pos);
         mySportFragment.setArguments(bundle);
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container_sport, mySportFragment);
+        fragmentTransaction.replace(R.id.fragment_container, mySportFragment);
         fragmentTransaction.commit();
     }
     /**
